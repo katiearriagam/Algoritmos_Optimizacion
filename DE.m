@@ -59,7 +59,10 @@ function valuesO = DE(Fitness, ProblemDim, LowerBoundV, UpperBoundV, pop_size, c
 
 
 	% Random Population
-	Population = rand(pop_size, ProblemDim);
+	for i = 1:ProblemDim
+		Population(:, i) = getRandomValue(LowerBoundV, UpperBoundV, pop_size, 1);
+	end
+	% Population = rand(pop_size, ProblemDim);
 	TrialPop   = zeros(pop_size, ProblemDim);
 	
 	
@@ -83,7 +86,7 @@ function valuesO = DE(Fitness, ProblemDim, LowerBoundV, UpperBoundV, pop_size, c
 				case 'rand'
 					vig = grabIndividuals(1, :) + DiffWeight.*(grabIndividuals(2, :) - grabIndividuals(3, :));
 				case 'best'
-					vig = grabIndividuals(1, :) + DiffWeight.*(grabIndividuals(2, :) - grabIndividuals(3, :));
+					error('Not implemented')
 				case 'current'
 					error('Not implemented')
 				case 'rtb'
