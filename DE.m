@@ -21,11 +21,14 @@
 % m: how many scaled vector differences adding
 % z: Crossover method
 
-
 % BaseVectorSelection: 
 	% 'rand'
 	% ''
-function valuesO = DE(Fitness, ProblemDim, LowerBoundV, UpperBoundV, pop_size, CrossoverRate, DiffWeight, StopCriteria, crossOverMethod, baseVectorSelection)
+    
+% How to run
+% DE(handle, 2, [-10, -10], [10, 10], 100, 0.8, 0.9, 1000, 'bin', 'rand')
+
+function valuesO = DE(Fitness, ProblemDim, LowerBoundV, UpperBoundV, pop_size, crossoverRate, DiffWeight, StopCriteria, crossOverMethod, baseVectorSelection)
 
 	% Set random seed
 	rng('default');
@@ -61,7 +64,7 @@ function valuesO = DE(Fitness, ProblemDim, LowerBoundV, UpperBoundV, pop_size, C
 	
 	
 	% Calcular el fitness de cada población
-	FitPopulation = arrayfun(@(n) Fitness(Population(n,:)), 1:size(Population,1))
+	FitPopulation = arrayfun(@(n) Fitness(Population(n,:)), 1:size(Population,1));
 
 	%GlobalBest = zeros(1, ProblemDim);
 
@@ -99,21 +102,21 @@ function valuesO = DE(Fitness, ProblemDim, LowerBoundV, UpperBoundV, pop_size, C
 
 			% target vector: poblacion original
 
-			flag = false
+			flag = false;
 			for j = 1:ProblemDim
 				% Agregar los valores que se van a quedar
 				% En vez del if else solo hago un caso inverso de if para solo agregar los valores que se van a quedar
-				if vig(j) < LowerBoundV(j) or vig(j) > UpperBoundV(j)
+				if vig(j) < LowerBoundV(j) || vig(j) > UpperBoundV(j)
 					Violation(i) = 1;
 					break;
 				end
 
-				if equals(CrossOverMethod, 'bin') % binary
-					if rand() > CrossoverRate && j ~= randomForcedIndex
+				if crossOverMethod == 'bin' % binary
+					if rand() > crossoverRate && j ~= randomForcedIndex
 						vig(j) = Population(i,j);
 					end
 				else % exponential
-					if ~flag and rand() > crossoverRate
+					if ~flag && rand() > crossoverRate
 						flag = true;
 					end
 					if flag
