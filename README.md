@@ -55,6 +55,52 @@ while(!isMet(stop_criteria)){
 - La selección de individuos para recombinar es imparcial
 - Los individuos consisten de parámetros de decisión + parámetros de estrategia
 
+### Differential Evolution (DE)
+
+- Directional mutation
+- Binomial crossover
+
+#### Initialización
+- Se definen upper y lower bounds para los parámetros.
+- Generar una población aleatoria con esos límites.
+
+#### Mutación
+- Seleccionar 3 miembros de la pobalción de manera aleatoria
+- Aplicar la mutación donde differentialWeight es el factor de mutación [0,2].
+
+```
+trialVector = xi1 + differentialWeight * (xi2 - xi3);
+```
+
+#### Recombinación
+- Reincorporamos soluciones exitosas de generaciones previas
+- Decidimos de manera aleatoria, usando el cross-over rate, si a la nuevo vector hijo entra una dimensión del trial vector, o de la población.
+
+#### Selección
+- Para cada individuo por el que iteramos, decidimos si el vector hijo se incorpora a la siguiente generación.
+- Se incorpora si su fitness es mejor que la del individuo actual para esa iteración.
+
+### Cooperative Evolution (CCEA)
+
+- Dividir el problema en sub-problemas llamados especies
+- Cada especie tiene una población, la cual contiene individuos que representan parte 
+- La solución se encuentra concatenando individuos de cada población
+
+```
+for each specie s
+	Initialize the population Ps with random individuals
+	Evaluate the fitness for each individual
+end
+
+while (!isMet(stop_criterion))
+	for each specie s
+		Select individuals from the current population Ps
+		Apply evolutionary operators to produce offspring
+		Evaluate offspring in collaboration with individuals from other species
+	end
+end
+```
+
 # Optimización multi-objetivo
 
 Encontrar un vector de variables que satisfaga un conjunto de restricciones (igualdad/desigualdad) y optimice un vector de funciones objetivo, de manera que se obtengan valores aceptables para todos los objetivos.
